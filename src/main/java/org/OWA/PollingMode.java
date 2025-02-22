@@ -1,41 +1,36 @@
 package org.OWA;
 
-import java.util.LinkedHashMap;
-import java.util.Map;
+import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
+import java.util.concurrent.TimeUnit;
 
-public class PollingMode implements WeatherMode {
-    private String apiKey;
-    private Map<String, WeatherData> cache = new LinkedHashMap<>();
+public class PollingMode extends Weathers {
     private ScheduledExecutorService scheduler;
 
-    public PollingMode(String apiKey){
-
+    public PollingMode(String apiKey) {
+        super(apiKey);
+        this.scheduler = Executors.newScheduledThreadPool(1);
+        this.scheduler.scheduleAtFixedRate(this::updateAllCache, 0, 10, TimeUnit.MINUTES);
     }
 
     @Override
     public String getWeather(String city) {
-        return "";
+        return super.getWeather(city);
     }
 
-    private boolean isCacheValid(String city){
-        return true;
-    }
-
-    private void updateAllCache(){
-
-    }
-
-    private void updateCache(String city, WeatherData data){
-
-    }
-
-    private WeatherData getWeatherAPI(String city){
-        return new WeatherData(city, 0, 0, 0, "");
+    private void updateAllCache() {
+        for (String city : super.cache.keySet()) {
+            try {
+                WeatherData data = super.getWeatherAPI(city);
+                super.updateCache(city, data);
+            } catch (Exception e) {
+                // Обработка ошибок
+            }
+        }
     }
 
     @Override
     public void destroy() {
-
+        super.destroy();
     }
 }
