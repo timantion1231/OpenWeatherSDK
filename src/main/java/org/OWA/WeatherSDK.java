@@ -6,17 +6,17 @@ import com.google.gson.GsonBuilder;
 public class WeatherSDK {
 
     /**
-     * Класс для работы с OpenWeather API
-     * Может хранить погоду только 10 городов
+     * Class for working with the OpenWeather API
+     * Can store the weather for only 10 cities
      */
 
     private WeatherMode mode;
 
     /**
-     * Конструктор
-     * @param apiKey API ключ для работы с openWeather API
-     * @param mode   Используйте "on-demand" для получения актуальной погоды при вызове
-     *               Используйте "polling" для автоматическоо обновления погоды всех городов каждые 10 минут
+     * Constructor
+     * @param apiKey API key for working with the OpenWeather API
+     * @param mode   Use "on-demand" to get the current weather when called.
+     *               Use "polling" for automatic updates of the weather for all cities every 10 minutes
      */
     public WeatherSDK(String apiKey, String mode) throws IllegalAccessException {
         if (mode.equalsIgnoreCase("on-demand")) {
@@ -35,6 +35,10 @@ public class WeatherSDK {
         return gson.toJson(mode.getWeather(city));
 
     }
+
+    /**
+     * Destroy object to cleaning memory
+     */
 
     public void destroy() {
         mode.destroy();
