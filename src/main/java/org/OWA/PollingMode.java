@@ -1,32 +1,29 @@
 package org.OWA;
 
-import java.util.concurrent.Executors;
-import java.util.concurrent.ScheduledExecutorService;
-import java.util.concurrent.TimeUnit;
 
 public class PollingMode extends Weathers {
-    private ScheduledExecutorService scheduler;
+   // private final long TIMELIMIT = 10 * 60 * 1000;
+   private final long TIMELIMIT = 5 * 1000;
 
     public PollingMode(String apiKey) {
         super(apiKey);
-        this.scheduler = Executors.newScheduledThreadPool(1);
-        this.scheduler.scheduleAtFixedRate(this::updateAllCache, 0, 10, TimeUnit.MINUTES);
     }
 
     @Override
-    public String getWeather(String city) {
-        return super.getWeather(city);
+    public WeatherData getWeather(String city) {
+        WeatherData data = super.getWeather(city);
+
+        if (data.getLastUpdated()+ TIMELIMIT < System.currentTimeMillis()) {
+            data = updateCache(city);
+        }
+        System.out.println("Updated: "+data.getLastUpdated());
+        return data;
     }
 
-    private void updateAllCache() {
-        for (String city : super.cache.keySet()) {
-            try {
-                WeatherData data = super.getWeatherAPI(city);
-                super.updateCache(city, data);
-            } catch (Exception e) {
-                // Обработка ошибок
-            }
-        }
+    private WeatherData updateCache(String city) {
+        WeatherData data = super.getCurrentWeather(city);
+        super.cache.put(city, data);
+        return data;
     }
 
     @Override

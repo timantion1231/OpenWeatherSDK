@@ -1,7 +1,8 @@
 package org.OWA;
 
-import java.util.LinkedHashMap;
-import java.util.Map;
+
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 
 public class OnDemandMode extends Weathers {
 
@@ -16,7 +17,10 @@ public class OnDemandMode extends Weathers {
     }
 
     @Override
-    public String getWeather(String city) {
+    public WeatherData getWeather(String city) {
+        Gson gson = new GsonBuilder()
+                .excludeFieldsWithoutExposeAnnotation()
+                .create();
         return super.getWeather(city);
     }
 }
