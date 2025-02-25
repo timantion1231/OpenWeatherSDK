@@ -1,7 +1,6 @@
 package org.OWA;
 
-import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
+
 import com.google.gson.annotations.Expose;
 
 import java.util.HashMap;
@@ -18,7 +17,6 @@ public class WeatherData {
     private double windSpeed;
     @Expose
     private String description;
-    private long lastUpdated;
 
     public WeatherData(String city, double temperature, double humidity, double windSpeed, String description) {
         this.city = city;
@@ -26,7 +24,6 @@ public class WeatherData {
         this.humidity = humidity;
         this.windSpeed = windSpeed;
         this.description = description;
-        this.lastUpdated = System.currentTimeMillis();
     }
 
     public WeatherData() {
@@ -50,32 +47,6 @@ public class WeatherData {
 
     public String getDescription() {
         return description;
-    }
-
-    public long getLastUpdated() {
-        return lastUpdated;
-    }
-
-    public String getData() {
-        Gson gson = new GsonBuilder()
-                .excludeFieldsWithoutExposeAnnotation()
-                .create();
-        return gson.toJson(this);
-    }
-
-    public Map<String, Object> getData1(){
-        HashMap<String, Object> data = new HashMap<>();
-        data.put("city", this.city);
-        data.put("temperature", this.temperature);
-        data.put("humidity", this.humidity);
-        data.put("windSpeed", this.windSpeed);
-        data.put("description", this.description);
-        data.put("lastUpdated", this.lastUpdated);
-        return data;
-    }
-
-    public void setLastUpdated() {
-        lastUpdated = System.currentTimeMillis();
     }
 
 }

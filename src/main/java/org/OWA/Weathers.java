@@ -124,7 +124,7 @@ public abstract class Weathers implements WeatherMode {
         return data;
     }
 
-    protected WeatherData getCurrentWeather(String city){
+    protected WeatherData getCurrentWeather(String city) {
         WeatherData data = new WeatherData();
         try {
             data = getWeatherAPI(city);
