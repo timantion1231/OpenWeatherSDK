@@ -1,6 +1,7 @@
 package org.OWA;
 
-public interface WeatherMode {
+interface WeatherMode {
     void destroy();
-    WeatherData getWeather(String city);
+
+    WeatherData getWeather(String city) throws Exception;
 }

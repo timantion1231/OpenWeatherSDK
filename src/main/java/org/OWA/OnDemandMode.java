@@ -4,7 +4,7 @@ package org.OWA;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
-public class OnDemandMode extends Weathers {
+class OnDemandMode extends Weathers {
 
 
     public OnDemandMode(String apiKey) {
@@ -17,10 +17,7 @@ public class OnDemandMode extends Weathers {
     }
 
     @Override
-    public WeatherData getWeather(String city) {
-        Gson gson = new GsonBuilder()
-                .excludeFieldsWithoutExposeAnnotation()
-                .create();
+    public WeatherData getWeather(String city) throws Exception {
         return super.getWeather(city);
     }
 }

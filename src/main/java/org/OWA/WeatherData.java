@@ -17,6 +17,7 @@ public class WeatherData {
     private double windSpeed;
     @Expose
     private String description;
+    private long updatedTime;
 
     public WeatherData(String city, double temperature, double humidity, double windSpeed, String description) {
         this.city = city;
@@ -24,29 +25,14 @@ public class WeatherData {
         this.humidity = humidity;
         this.windSpeed = windSpeed;
         this.description = description;
+        this.updatedTime = System.currentTimeMillis();
     }
 
     public WeatherData() {
     }
 
-    public String getCity() {
-        return city;
-    }
-
-    public double getTemperature() {
-        return temperature;
-    }
-
-    public double getHumidity() {
-        return humidity;
-    }
-
-    public double getWindSpeed() {
-        return windSpeed;
-    }
-
-    public String getDescription() {
-        return description;
+    public long getUpdatedTime(){
+        return updatedTime;
     }
 
 }

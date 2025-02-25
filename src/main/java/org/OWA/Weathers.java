@@ -9,9 +9,11 @@ import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
-public abstract class Weathers implements WeatherMode {
+abstract class Weathers implements WeatherMode {
     private String apiKey;
     protected Map<String, WeatherData> cache = new LinkedHashMap<>();
+   // private final long TIMELIMIT = 10 * 60 * 1000;
+   private final long TIMELIMIT = 5 * 1000;
 
     public Weathers(String apiKey) {
         this.apiKey = apiKey;
@@ -19,7 +21,7 @@ public abstract class Weathers implements WeatherMode {
 
     protected boolean isCacheValid(String city) {
         WeatherData data = cache.get(city);
-        return data != null;
+        return data != null && data.getUpdatedTime() + TIMELIMIT > System.currentTimeMillis();
     }
 
     protected void addToCache(String city, WeatherData data) {
@@ -66,7 +68,7 @@ public abstract class Weathers implements WeatherMode {
                 weatherData = new WeatherData(city, temperature, humidity, windSpeed, description);
             }
         } catch (Exception e) {
-            System.out.println(e.getMessage());
+            throw e;
         }
         return weatherData;
     }
@@ -99,7 +101,7 @@ public abstract class Weathers implements WeatherMode {
                 map.put("lat", location.getLat());
             }
         } catch (IOException e) {
-            System.out.println(e.getMessage());
+            throw e;
         }
 
         return map;
@@ -110,7 +112,7 @@ public abstract class Weathers implements WeatherMode {
         this.apiKey = null;
     }
 
-    public WeatherData getWeather(String city) {
+    public WeatherData getWeather(String city) throws Exception {
         if (isCacheValid(city)) {
             return cache.get(city);
         }
@@ -119,17 +121,17 @@ public abstract class Weathers implements WeatherMode {
             data = getWeatherAPI(city);
             addToCache(city, data);
         } catch (Exception e) {
-            System.out.println(e.getMessage());
+            throw e;
         }
         return data;
     }
 
-    protected WeatherData getCurrentWeather(String city) {
+    protected WeatherData getCurrentWeather(String city) throws Exception {
         WeatherData data = new WeatherData();
         try {
             data = getWeatherAPI(city);
         } catch (Exception e) {
-            System.out.println(e.getMessage());
+            throw e;
         }
         return data;
     }
