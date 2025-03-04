@@ -12,8 +12,8 @@ import java.util.Map;
 abstract class Weathers implements WeatherMode {
     private String apiKey;
     protected Map<String, WeatherData> cache = new LinkedHashMap<>();
-   // private final long TIMELIMIT = 10 * 60 * 1000;
-   private final long TIMELIMIT = 5 * 1000;
+    private final long TIMELIMIT = 10 * 60 * 1000;
+  // private final long TIMELIMIT = 5 * 1000;
 
     public Weathers(String apiKey) {
         this.apiKey = apiKey;
